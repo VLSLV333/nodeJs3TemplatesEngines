@@ -1,17 +1,9 @@
+// import { requestHandler } from './routes';
+
 const http = require('http');
 
-// function requestListener (request, response){
+const handler = require('./routes').requestHandler;
 
-// }
+const server = http.createServer(handler);
 
-// http.createServer(requestListener)
-
-// http.createServer(function (request,response){
-
-// })
-
-const server = http.createServer((req, res) => {
-  console.log(req);
-});
-
-// server.listen(3000)
+server.listen(3000);
