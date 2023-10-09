@@ -1,25 +1,23 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 const app = express();
 
-app.use('/', (req, res, next) => {
-  console.log('This runs always!');
-  next();
-});
+app.use(bodyParser.urlencoded({ extended: false })); // parses our data from form automatically, so in next middlewares we can read req.body.
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/add-product', (req, res, next) => {
-  console.log(
-    'this middleware applies to only "/add-products", so we do not need to call next to go to the "/"'
-  );
-  res.send('<h1>I love NODE JS and adding products=)</h1>');
-});
+app.use('/admin', adminRoutes); // '/admin' will make it so all routes in 'adminRoutes' will automatically match only '/admin/...'
+// ---------------  the '...' part matches the routes written in admin.js (.../add-product)'
+
+app.use(shopRoutes);
 
 app.use('/', (req, res, next) => {
-  console.log(
-    'this middleware applies to all routes, because they all start with "/". So we place it in the end, so all other paths are checked first'
-  );
-  console.log('this only runs if we are not visiting paths written above');
-  res.send('<h1>I love NODE JS</h1>');
+  // used to catch any requests that didn't match all previouse possible routes
+  res.status(404).sendFile(path.join(__dirname, 'views', 'ForOFor.html'));
 });
 
 app.listen(3000);
