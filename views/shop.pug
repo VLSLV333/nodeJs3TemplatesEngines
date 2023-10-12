@@ -1,0 +1,21 @@
+extends layouts/main-layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/product.css")
+block content
+    main
+            if (prods.length > 0)
+                .grid
+                    each product in prods
+                        article.card.product-item
+                            header.card__header
+                                h1.product__title #{product.title}
+                            .card__image
+                                img(src="https://media.cnn.com/api/v1/images/stellar/prod/191003121459-02-bugatti-chiron-road-trip.jpg?q=x_35,y_626,h_1946,w_3459,c_crop/h_720,w_1280", alt="A Book")
+                            .card__content
+                                h2.product__price $19.99
+                                p.product__description  A very interesting book about so many even more interesting things!
+                            .card__actions
+                                button.btn  Add to Cart
+            else 
+                h1 No Products yet:(
